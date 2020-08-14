@@ -50,7 +50,7 @@ export const createQuad = (gl: WebGLRenderingContext) => ({
     render: (camera: Camera) => {
       const vp = camera.getViewProjection();
       program.setUsed();
-      program.setUniformMat4f(uniform_mvp, vp);
+      program.setUniformMat4f(uniform_mvp as WebGLUniformLocation, vp);
 
       vao.bind();
 

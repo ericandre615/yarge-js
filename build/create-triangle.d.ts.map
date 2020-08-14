@@ -1,1 +1,0 @@
-{"version":3,"file":"create-triangle.d.ts","sourceRoot":"","sources":["../src/create-triangle.ts"],"names":[],"mappings":"AAKA,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,aAAa,CAAC;AACxC,OAAO,KAAK,EAAE,MAAM,EAAE,MAAM,cAAc,CAAC;AAE3C,aAAK,QAAQ,GAAG,CAAC,MAAM,EAAE,MAAM,EAAE,MAAM,CAAC,CAAC;AAEzC,eAAO,MAAM,cAAc,OAAQ,qBAAqB;qBAgCnC,MAAM;CAsB1B,CAAC;AAEF,eAAe,cAAc,CAAC"}
