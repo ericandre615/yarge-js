@@ -1,10 +1,10 @@
-import createApp from '../src/app.js';
-import createTriangle from '../src/create-triangle.js';
-import createQuad from '../src/create-quad.js';
-import createSprite from '../src/lib/sprite.js';
-import { rgba } from '../src/lib/color.js';
-import createCamera from '../src/lib/camera.js';
-import createTexture from '../src/lib/texture.js';
+import createApp from '../build/app.js';
+import createTriangle from '../build/create-triangle.js';
+import createQuad from '../build/create-quad.js';
+import createSprite from '../build/lib/sprite.js';
+import { rgba } from '../build/lib/color.js';
+import createCamera from '../build/lib/camera.js';
+import createTexture from '../build/lib/texture.js';
 
 const UP = 38;
 const RIGHT = 39;
@@ -75,7 +75,7 @@ const setup = async () => {
 
   app.run({
     update: (state) => {
-      triangle.render();
+      triangle.render(camera);
       quad.render(camera);
       marioSprite.render(camera);
       ninjaSprite.render(camera);

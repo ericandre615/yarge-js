@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --build ."
   },
   "keywords": [
     "js",
@@ -16,5 +17,8 @@
   "author": "Eric Andre<ericandre615@gmail.com>",
   "dependencies": {
     "js-resizer": "git+https://github.com/ericandre615/js-resizer.git"
+  },
+  "devDependencies": {
+    "typescript": "^3.9.7"
   }
 }

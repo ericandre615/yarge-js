@@ -4,7 +4,7 @@
 // requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
 
 // MIT license
-
+/* tslint: disable */
 export default (function() {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -29,3 +29,4 @@ export default (function() {
             clearTimeout(id);
         };
 }());
+/* tslint:enable */

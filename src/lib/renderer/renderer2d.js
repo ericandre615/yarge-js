@@ -64,7 +64,7 @@ const renderer2d = gl => {
   const maxBufferSize = batchVertexSize * maxSprites;
   const maxTextures = system.get_max_textures();
   const program = createProgram(gl)(vertexShader, createFragmentShader(maxTextures));
-  const uniformTextures = program.getUniformLocation('u_textures");
+  const uniformTextures = program.getUniformLocation('u_textures');
   const uniformMvp = program.getUniformLocation('mvp');
   const textureSlots = Array(maxTextures).fill(0);
 
