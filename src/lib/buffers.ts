@@ -1,22 +1,24 @@
-const createBuffer = gl => (BUFFER_TYPE) => {
+type BufferData = ArrayBuffer | ArrayBufferView; // | SharedArrayBuffer should also be used, but TypeScript can't find this type? Superset of JS my a$$;
+
+const createBuffer = (gl: WebGLRenderingContext) => (BUFFER_TYPE: GLenum) => {
   const bufferId = gl.createBuffer();
 
   return {
     bufferId,
     bind: () => gl.bindBuffer(BUFFER_TYPE, bufferId),
     unbind: () => gl.bindBuffer(BUFFER_TYPE, null),
-    detach: () => gl.deleteBuffer(1, bufferId),
-    staticDrawData: (bufferData) => {
+    detach: () => gl.deleteBuffer(bufferId),
+    staticDrawData: (data: BufferData) => {
       gl.bufferData(
         BUFFER_TYPE,
-        bufferData,
+        data,
         gl.STATIC_DRAW
       );
     },
   };
 };
 
-export const createVertexArray = gl => {
+export const createVertexArray = (gl: WebGLRenderingContext) => {
   const ext = (
     gl.getExtension('OES_vertex_array_object') ||
     gl.getExtension('MOZ_OES_vertex_array_object') ||
@@ -33,28 +35,28 @@ export const createVertexArray = gl => {
   };
 };
 
-export const createDynamicArrayBuffer = gl => {
+export const createDynamicArrayBuffer = (gl: WebGLRenderingContext) => {
   const bufferId = gl.createBuffer();
-  const bufferOffset = 0;
+  let bufferOffset: GLintptr = 0;
 
   return {
     bufferId,
     bind: () => gl.bindBuffer(gl.ARRAY_BUFFER, bufferId),
     unbind: () => gl.bindBuffer(gl.ARRAY_BUFFER, null),
-    detach: () => gl.deleteBuffer(1, bufferId),
+    detach: () => gl.deleteBuffer(bufferId),
 
-    setBufferOffse: offset => { bufferOffset = offset; },
+    setBufferOffset: (offset: GLintptr) => { bufferOffset = offset; },
     resetBufferOffset: () => { bufferOffset = 0; },
     getBufferOffset: () => bufferOffset,
-    setBufferData: maxBufferSize => {
+    setBufferData: (maxBufferSize: GLsizeiptr) => {
       gl.bufferData(
         gl.ARRAY_BUFFER,
         maxBufferSize,
-        null, //?
+        //null, //?
         gl.DYNAMIC_DRAW,
       );
     },
-    uploadDrawData: data => {
+    uploadDrawData: (data: BufferData) => {
       gl.bufferSubData(
         gl.ARRAY_BUFFER,
         bufferOffset,
@@ -65,8 +67,8 @@ export const createDynamicArrayBuffer = gl => {
   }
 };
 
-export const createArrayBuffer = gl => createBuffer(gl)(gl.ARRAY_BUFFER);
-export const createElementArrayBuffer = gl => createBuffer(gl)(gl.ELEMENT_ARRAY_BUFFER);
+export const createArrayBuffer = (gl: WebGLRenderingContext) => createBuffer(gl)(gl.ARRAY_BUFFER);
+export const createElementArrayBuffer = (gl: WebGLRenderingContext) => createBuffer(gl)(gl.ELEMENT_ARRAY_BUFFER);
 
 export default {
   createArrayBuffer,
