@@ -1,5 +1,7 @@
 import './vendor/raf-polyfill.js';
 
+import type { GenericObject } from './lib/types/generic';
+
 import getGlContext from './lib/gl.js';
 
 const getCanvas = (canvasId = ''): HTMLCanvasElement => document.getElementById(canvasId) as HTMLCanvasElement;
@@ -77,7 +79,6 @@ const appState: AppState = {
   time: 0,
 };
 
-type GenericObject<T> = T & { [key: string]: unknown };
 type InternalState = GenericObject<{
   clearColor: [number, number, number, number],
   isRunning: boolean,
