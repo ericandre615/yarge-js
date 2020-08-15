@@ -16,7 +16,7 @@ export const createTexture = (gl: WebGLRenderingContext) => async (
   // @ts-ignore
   options = {},
 ) => {
-  const image = await loadImage(imagePath);
+  const image: HTMLImageElement = await loadImage(imagePath);
 
   const textureId = gl.createTexture();
 

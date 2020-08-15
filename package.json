@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc --build ."
+    "build": "tsc --build .",
+    "clean": "rm -rf ./build",
+    "build:clean": "npm run clean && npm run build"
   },
   "keywords": [
     "js",

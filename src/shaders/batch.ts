@@ -28,7 +28,7 @@ void main() {
 }
 `;
 
-export const createFragmentShader = max_textures => {
+export const createFragmentShader = (max_textures: number) => {
 const texture_switches = [];
 
 for (let i = 0; i < max_textures; i++) {
