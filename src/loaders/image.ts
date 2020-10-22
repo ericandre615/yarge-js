@@ -1,5 +1,5 @@
-export const loadImage = src => new Promise((resolve, reject) => {
-  const image = new Image();
+export const loadImage = (src: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
+  const image: HTMLImageElement = new Image();
   image.src = src;
   const imageLoadHandler = () => {
     image.removeEventListener('load', imageLoadHandler, false);
@@ -7,11 +7,11 @@ export const loadImage = src => new Promise((resolve, reject) => {
 
     return resolve(image);
   };
-  const imageErrorHandler = e => {
+  const imageErrorHandler = (e: ErrorEvent) => {
     image.removeEventListener('load', imageLoadHandler, false);
     image.removeEventListener('error', imageErrorHandler, false);
 
-    return reject(new Error('ImageLoadError', e));
+    return reject(new Error(`ImageLoadError:　${e}`));
   };
 
   image.addEventListener('load', imageLoadHandler, false);

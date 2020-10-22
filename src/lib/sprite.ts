@@ -1,23 +1,35 @@
+import type { Camera } from './camera';
+import type { Texture } from './texture';
+
 import createProgram from './program.js';
 import { createArrayBuffer, createVertexArray, createElementArrayBuffer } from './buffers.js';
 import { vertex as createVertex, vertexArray } from './vertex.js';
 import { vertexShader, fragmentShader } from '../shaders/sprite.js';
 import createTexture from './texture.js';
 
-export const createSprite = gl => async ({
+type SpriteProps = {
+  position: [number, number, number],
+  color: [number, number, number, number],
+  width: number,
+  height: number,
+  texture: Texture,
+  imagePath: string,
+}
+
+export const createSprite = (gl: WebGLRenderingContext) => async ({
   position = [0.0, 0.0, 0.0],
   color = [0.0, 0.0, 0.0, 0.0],
   width = 0,
   height = 0,
   texture,
   imagePath = '',
-}) => {
+}: SpriteProps) => {
   const program = createProgram(gl)(vertexShader, fragmentShader);
   const spriteTexture = gl.isTexture(texture && texture.textureId)
     ? texture
     : await createTexture(gl)(imagePath);
-  const uniform_mvp = program.getUniformLocation('mvp');
-  const uniform_texture = program.getUniformLocation('u_texture');
+  const uniform_mvp = program.getUniformLocation('mvp') as WebGLUniformLocation;
+  const uniform_texture = program.getUniformLocation('u_texture') as WebGLUniformLocation;
   const a_position = program.getAttribLocation('a_position');
   const a_color = program.getAttribLocation('a_color');
   const a_uv = program.getAttribLocation('a_uv');
@@ -57,13 +69,13 @@ export const createSprite = gl => async ({
   return {
     getVertices: () => vertices,
     texture: spriteTexture.textureId,
-    render: (camera) => {
+    render: (camera: Camera) => {
       const vp = camera.getViewProjection();
 
       spriteTexture.bindToUnit(1);
 
       program.setUsed();
-      program.setUniformMat4f(uniform_mvp, vp, true);
+      program.setUniformMat4f(uniform_mvp, vp);
       program.setUniform1i(uniform_texture, 1);
 
       vao.bind();

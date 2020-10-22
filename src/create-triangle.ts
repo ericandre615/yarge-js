@@ -3,11 +3,17 @@ import { createArrayBuffer, createVertexArray, createElementArrayBuffer } from '
 import { vertex as createVertex, vertexArray } from './lib/vertex.js';
 import { vertexShader, fragmentShader } from './shaders/triangle.js';
 
-export const createTriangle = gl => (pos, color) => {
+import type { RGBA } from './lib/color';
+import type { Camera } from './lib/camera';
+
+type Position = [number, number, number];
+
+export const createTriangle = (gl: WebGLRenderingContext) => (pos: Position, color: RGBA) => {
   const program = createProgram(gl)(vertexShader, fragmentShader);
   const a_position = program.getAttribLocation('a_position');
   const a_color = program.getAttribLocation('a_color');
   const vertex = createVertex(gl);
+  const [x, y, z] = pos;
   const vertices = vertexArray([
     vertex({ [a_position]: [-0.5, -0.5, 0.0], [a_color]: color }),
     vertex({ [a_position]: [0.5, 0.0, 0.0], [a_color]: color }),
@@ -34,7 +40,9 @@ export const createTriangle = gl => (pos, color) => {
   vbo.unbind();
 
   return {
-    render: (camera) => {
+    render: (camera: Camera) => {
+      const projection = camera.getProjection();
+
       program.setUsed();
 
       vao.bind();

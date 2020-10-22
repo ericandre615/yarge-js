@@ -1,12 +1,22 @@
 import loadImage from '../loaders/image.js';
 
-const isPowerOf2 = value => ((value & (value - 1)) == 0);
+const isPowerOf2 = (value: number) => ((value & (value - 1)) == 0);
 
-export const createTexture = gl => async (
+export type Texture = {
+  textureId: WebGLTexture,
+  getDimensions: () => [number, number],
+  bind: () => void,
+  bindToUnit: (unit: GLuint) => void,
+  unbind: () => void,
+  detach: () => void,
+}
+
+export const createTexture = (gl: WebGLRenderingContext) => async (
   imagePath = '',
+  // @ts-ignore
   options = {},
 ) => {
-  const image = await loadImage(imagePath);
+  const image: HTMLImageElement = await loadImage(imagePath);
 
   const textureId = gl.createTexture();
 
@@ -34,12 +44,12 @@ export const createTexture = gl => async (
     textureId,
     getDimensions: () => ([image.width, image.height]),
     bind: () => gl.bindTexture(gl.TEXTURE_2D, textureId),
-    bindToUnit: unit => {
+    bindToUnit: (unit: GLuint) => {
       gl.activeTexture(gl.TEXTURE0 + unit);
       gl.bindTexture(gl.TEXTURE_2D, textureId);
     },
     unbind: () => gl.bindTexture(gl.TEXTURE_2D, null),
-    detach: () => gl.deleteTextures(1, textureId),
+    detach: () => gl.deleteTexture(textureId),
   };
 };
 

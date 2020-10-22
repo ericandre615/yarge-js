@@ -1,9 +1,11 @@
+import type { Camera } from './lib/camera';
+
 import createProgram from './lib/program.js';
 import { createArrayBuffer, createVertexArray, createElementArrayBuffer } from './lib/buffers.js';
 import { vertex as createVertex, vertexArray } from './lib/vertex.js';
 import { vertexShader, fragmentShader } from './shaders/quad.js';
 
-export const createQuad = gl => ({
+export const createQuad = (gl: WebGLRenderingContext) => ({
   position = [0.0, 0.0, 0.0],
   color = [0.0, 0.0, 0.0, 0.0],
   width = 0,
@@ -45,28 +47,10 @@ export const createQuad = gl => ({
   vbo.unbind();
 
   return {
-    render: (camera) => {
-      //const vp =[
-      //  0.001953125,
-      //  0.0,
-      //  0.0,
-      //  0.0,
-      //  0.0,
-      //  -0.0028449502,
-      //  0.0,
-      //  0.0,
-      //  0.0,
-      //  0.0,
-      //  -0.018181818,
-      //  0.0,
-      //  -1.0,
-      //  1.0,
-      //  -0.8181818,
-      //  1.0,
-      //];
+    render: (camera: Camera) => {
       const vp = camera.getViewProjection();
       program.setUsed();
-      program.setUniformMat4f(uniform_mvp, vp, true);
+      program.setUniformMat4f(uniform_mvp as WebGLUniformLocation, vp);
 
       vao.bind();
 
